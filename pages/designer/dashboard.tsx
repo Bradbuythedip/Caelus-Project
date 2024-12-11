@@ -10,6 +10,9 @@ import {
   useColorModeValue,
   VStack,
   Button,
+  SimpleGrid,
+  Heading,
+  Text,
 } from '@chakra-ui/react';
 import { DesignerDashboard } from '../../components/DesignerDashboard';
 import { FabricGallery } from '../../components/FabricGallery';
@@ -64,6 +67,33 @@ const mockFabrics = [
   },
 ];
 
+const mockListings = [
+  {
+    id: '1',
+    title: 'Sustainable Denim Collection',
+    description: 'Contemporary denim designs using eco-friendly materials',
+    tags: ['Denim', 'Sustainable', 'Casual'],
+    status: 'active',
+    created: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    title: 'Summer Fashion Line',
+    description: 'Light and breezy summer wear collection',
+    tags: ['Summer', 'Casual', 'Beachwear'],
+    status: 'draft',
+    created: new Date().toISOString(),
+  },
+  {
+    id: '3',
+    title: 'Eco-Friendly Activewear',
+    description: 'Performance sportswear made from recycled materials',
+    tags: ['Activewear', 'Sustainable', 'Performance'],
+    status: 'active',
+    created: new Date().toISOString(),
+  },
+];
+
 export default function DesignerDashboardPage() {
   const bgColor = useColorModeValue('gray.50', 'gray.900');
 
@@ -93,11 +123,52 @@ export default function DesignerDashboardPage() {
 
             <TabPanel>
               <VStack spacing={6} align="stretch">
-                <Button colorScheme="blue" alignSelf="flex-end">
-                  Create New Listing
-                </Button>
+                <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+                  <Heading size="md">My Listings</Heading>
+                  <Button colorScheme="blue" leftIcon={<>+</>}>
+                    Create New Listing
+                  </Button>
+                </Box>
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-                  {/* Add mock listings here */}
+                  {mockListings.map((listing) => (
+                    <Box
+                      key={listing.id}
+                      p={6}
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      bg={useColorModeValue('white', 'gray.800')}
+                      shadow="sm"
+                      transition="all 0.2s"
+                      _hover={{ shadow: 'md' }}
+                    >
+                      <VStack align="stretch" spacing={3}>
+                        <Heading size="sm">{listing.title}</Heading>
+                        <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
+                          {listing.description}
+                        </Text>
+                        <Box>
+                          {listing.tags.map((tag) => (
+                            <Box
+                              key={tag}
+                              as="span"
+                              mx={1}
+                              px={2}
+                              py={1}
+                              borderRadius="full"
+                              fontSize="xs"
+                              bg={useColorModeValue('gray.100', 'gray.700')}
+                              color={useColorModeValue('gray.600', 'gray.300')}
+                            >
+                              {tag}
+                            </Box>
+                          ))}
+                        </Box>
+                        <Text fontSize="xs" color={useColorModeValue('gray.500', 'gray.400')}>
+                          Status: {listing.status}
+                        </Text>
+                      </VStack>
+                    </Box>
+                  ))}
                 </SimpleGrid>
               </VStack>
             </TabPanel>
